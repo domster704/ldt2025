@@ -1,0 +1,6 @@
+[submodule "lct2025-backend"]
+	path = lct2025-backend
+	url = git@backend.lct2025.github.com:domster704/lct2025-backend.git
+[submodule "lct2025-front"]
+	path = lct2025-front
+	url = https://frontend.lct2025.github.com/domster704/lct2025-front.git
