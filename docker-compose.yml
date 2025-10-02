@@ -1,6 +1,6 @@
 services:
   frontend:
-    build: lct2025-frontend
+    build: lct2025-front
     env_file:
       - .env
     ports:
