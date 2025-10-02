@@ -1,43 +1,7 @@
 services:
-  backend:
-    build: web-client-backend
-    env_file:
-      - .env
-    environment:
-      POSTGRESQL_HOST: postgres
-    depends_on:
-      - postgres
-    command: >
-      uvicorn api.main:app
-                --host ${APP_HOST}
-                --port ${APP_PORT}
-                --workers ${APP_WORKERS}
-                --forwarded-allow-ips '*'
-                --proxy-headers
-    ports:
-      - "${APP_PORT}:${APP_PORT}"
-
   frontend:
-    build: web-client-frontend
+    build: lct2025-frontend
     env_file:
       - .env
-    depends_on:
-      - backend
     ports:
-      - "8001:80"
-
-  postgres:
-    image: postgres:17-alpine3.22
-    env_file:
-      - .env
-    environment:
-      POSTGRES_DB: ${POSTGRESQL_DB_NAME}
-      POSTGRES_USER: ${POSTGRESQL_USERNAME}
-      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
-    volumes:
-      - pg-backend-data:/var/lib/postgresql/data
-    ports:
-      - ${POSTGRESQL_PORT}:5432
-
-volumes:
-  pg-backend-data:
+      - "40080:80"
