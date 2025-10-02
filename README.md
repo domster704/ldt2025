@@ -8,31 +8,17 @@
 
 ```bash
 # Клонирование репозитория
-git clone https://github.com/<org>/<repo>.git
+git clone https://github.com/< org> /< repo> .git
 cd lct2025
 
-# Установка backend
-cd backend
-poetry install
-
-# Запуск backend (FastAPI)
-poetry run uvicorn src.main:app --reload
-
-# Запуск миграций базы данных
-poetry run alembic upgrade head
-
-# Установка frontend
-cd ../lct2025-front
-npm install
-
-# Запуск frontend (React + Vite/CRA)
-npm run dev
+chmod +x update.sh
+bash update.sh
 ```
 
 **По умолчанию:**
 
 * Backend доступен на: `http://127.0.0.1:8000`
-* Frontend доступен на: `http://127.0.0.1:5173`
+* Frontend доступен на: `https://front.lct2025.ln-kr.ru/`
 * Swagger-дока API: `http://127.0.0.1:8000/docs`
 
 ---
@@ -41,42 +27,42 @@ npm run dev
 
 ```mermaid
 flowchart LR
-    subgraph Devices[Медицинские устройства]
-        CTG[CTG Аппарат]
+    subgraph Devices ["Медицинские устройства"]
+        CTG["CTG Аппарат"]
     end
 
-    subgraph Backend[Backend (FastAPI)]
-        API[REST API + WebSocket]
-        DB[(PostgreSQL/SQLite)]
-        ML[ML Engine (PyTorch, Sklearn)]
-        MIGR[Alembic]
+    subgraph Backend ["Backend (FastAPI)"]
+        API["REST API + WebSocket"]
+        DB[("PostgreSQL/SQLite")]
+        ML["ML Engine (PyTorch, Sklearn)"]
+        MIGR["Alembic (миграции)"]
     end
 
-    subgraph Frontend[Frontend (React + Redux Toolkit)]
-        UI[UI Dashboard]
-        WebsocketClient[WS Client]
-        State[Redux Store]
+    subgraph Frontend ["Frontend (React + Redux Toolkit)"]
+        UI["UI Dashboard"]
+        WebsocketClient["WS Client"]
+        State["Redux Store"]
     end
 
-    CTG -->|Сигналы FHR/UC| API
-    API --> DB
-    API --> ML
-    API --> Frontend
-    WebsocketClient --> API
-    UI --> State
+    CTG --> |Сигналы FHR/UC| API
+    API -->  DB
+    API -->  ML
+    API -->  Frontend
+    WebsocketClient -->  API
+    UI -->  State
 ```
 
 **Описание компонентов:**
 
-* **Frontend** — визуализация графиков КТГ, панель врача, настройки.
-* **Backend** — FastAPI-сервис:
+* **Frontend** - визуализация графиков КТГ, панель врача, настройки.
+* **Backend** - FastAPI-сервис:
 
     * REST API (CRUD пациенты, истории).
     * WebSocket (поток сигналов).
     * ML-модуль (анализ сигналов).
-* **DB** — PostgreSQL (прод) или SQLite (dev).
-* **Alembic** — управление миграциями.
-* **ML Engine** — прогноз FIGO, вероятность гипоксии.
+* **DB** - PostgreSQL (прод) или SQLite (dev).
+* **Alembic** - управление миграциями.
+* **ML Engine** - прогноз FIGO, вероятность гипоксии.
 
 ---
 
@@ -160,9 +146,9 @@ flowchart LR
 
 ### 2.2 Выявление аномалий
 
-* **FHR**: <110 или >160 уд/мин.
-* **UC**: >60%.
-* **STV**: <2.6 мс → высокий риск гипоксии.
+* **FHR**: < 110 или > 160 уд/мин.
+* **UC**: > 60%.
+* **STV**: < 2.6 мс → высокий риск гипоксии.
 
 ### 2.3 ML-модели
 
@@ -174,7 +160,7 @@ flowchart LR
 
 * Accuracy по FIGO ≈ 0.84.
 * AUROC прогноза гипоксии ≈ 0.89.
-* MSE прогноза STV < 0.5 мс.
+* MSE прогноза STV <  0.5 мс.
 
 ---
 
@@ -196,10 +182,10 @@ flowchart LR
 
 ### 3.3 Интерпретация
 
-* **Зелёный** — норма.
-* **Оранжевый** — сомнительно.
-* **Красный** — патологически.
-* **Фиолетовый** — претерминально.
+* **Зелёный** - норма.
+* **Оранжевый** - сомнительно.
+* **Красный** - патологически.
+* **Фиолетовый** - претерминально.
 
 ### 3.4 Рекомендации
 
@@ -220,7 +206,7 @@ flowchart LR
 
 ### 4.2 Оптимизации под edge
 
-* Ограничение точек (4000) → smooth rendering.
+* Ограничение точек (4000) → smooth rendering (downsampling).
 * IndexedDB для звуков.
 * WebSocket → бинарные пакеты.
 
@@ -230,20 +216,15 @@ flowchart LR
 
     * `frontend` (React).
     * `backend` (FastAPI).
-    * `db` (Postgres).
-    * `nginx` (reverse-proxy).
 
 ### 4.4 Аппаратные требования
 
-* Минимум: 2 CPU, 4GB RAM, SSD 10GB.
-* Рекомендуется: GPU (для обучения).
+* Минимум: 4 CPU, 4GB RAM, SSD 10GB.
 
 ---
 
 ## 5. Исходный код
 
 * Фронт: `lct2025-front/src`
-* Бэк: `backend/src`
-* Миграции: `backend/src/migrations/`
-* Тесты: `tests/`
+* Бэк: `lct2025-backend/src`
 * Контейнеризация: `Dockerfile`, `docker-compose.yml`
