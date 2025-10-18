@@ -5,3 +5,4 @@ services:
       - .env
     ports:
       - "40080:80"
+    restart: unless-stopped
