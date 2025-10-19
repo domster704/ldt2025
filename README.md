@@ -148,7 +148,7 @@ Python, scikit-learn, CatBoost, Pandas, NumPy
 
 * ROC-AUC прогноза гипоксии ≈ 0.80.
 * F1-score (по результатам обследования) = 0.73
-* MAE прогноза STV <  1.2 мс.
+* MAE прогноза STV <  0.9 мс.
 
 ## Backend
 
