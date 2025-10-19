@@ -20,6 +20,10 @@
     ```bash
     bash update.sh    
     ```
+3. `lct2025-llm` надо запустить отдельно не в Docker контейнере:
+    ```bash
+    python main.py
+    ```
 
 ---
 
